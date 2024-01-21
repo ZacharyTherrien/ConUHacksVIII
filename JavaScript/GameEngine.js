@@ -16,16 +16,45 @@ const GameStates = {
     End: "End"
 }
 
-let sprite = new Image();
-sprite.src = "./animations/man/idle/1.png";
-drawCharacter(sprite,0,0);
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
 
 gameState = GameStates.Start;
 
 document.querySelector("html").onkeypress = function(press){
     key = press.key;
 }
-function animate(){
+
+let sprite = new Image();
+sprite.src = "./animations/man/idle/1.png";
+let zombies = 
+[
+]
+let zombieSprite = new Image();
+zombieSprite.src = "./animations/zombie/walking/1.png";
+
+zombies.push(
+    {
+        sprite: zombieSprite,
+        start: canvas.width,
+        position: getRandomInt(5) * 80,
+        speed: getRandomInt(2) + 1
+    }
+)
+
+window.setInterval(function() {
+    zombies.push(
+        {
+            sprite: zombieSprite,
+            start: canvas.width,
+            position: getRandomInt(5) * 80,
+            speed: getRandomInt(2) + 1
+        }
+    )
+}, getRandomInt(10000) + 10000)
+function animate()
+{
     requestAnimationFrame(animate);
     context.clearRect(0,0,width,height);
     if(gameState == GameStates.Start){
@@ -36,8 +65,15 @@ function animate(){
             player = new Player();
         }
     }
-    else if(gameState == GameStates.Running){
+    else if(gameState == GameStates.Running)
+    {
         drawCharacter(sprite,0,player.yCoord);
+        for (let i = 0; i < zombies.length; i++)
+        {
+            zombies[i].start -= zombies[i].speed;
+            SpawnZombies(zombies[i].sprite, zombies[i].start, zombies[i].position);
+        }
+
         if(key == "w"){
             player.walk(key);
         }
