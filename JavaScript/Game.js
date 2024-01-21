@@ -24,7 +24,11 @@ function isWithinReach(){
            zombies[i].dealDamage(player.strength);
            zombies[i].xCoord += 15;
         }
-        if(zombies[i].hp <= 0){
+        if(zombies[i].hp <= 0)
+        {
+            console.log("0")
+            setTimeout(5000);
+            console.log("5000!")
             zombies[i] = null;
             zombies = arrayShift(zombies, i);
             break;
