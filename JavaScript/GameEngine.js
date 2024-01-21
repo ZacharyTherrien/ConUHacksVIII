@@ -2,10 +2,15 @@ let canvas = document.querySelector("canvas");
 let context = canvas.getContext("2d");
 let gameState;
 let ratio = 100;
-canvas.width = 9 * ratio;
-canvas.height = 4 * ratio;
+let width = 9 * ratio;
+let height = 4 * ratio;
+canvas.width = width;
+canvas.height = height;
 let key = "";
 let player;
+
+var objDate = new Date();
+var hours = objDate.getHours();
 
 const GameStates = {
     Title: "title",
@@ -32,9 +37,23 @@ let zombies = []
 
 let zombieSpriteImage = 1;
 let zombieSprite = new Image();
-zombieSprite.src = "./animations/zombie/walking/1.png";
 
-zombies.push(new Zombie(getRandomInt(5) * 80, getRandomInt(2) + 1, zombieSprite));
+if (hours == 3)
+    zombieSprite.src = "./animations/zombie/special/1.png";
+else
+    zombieSprite.src = "./animations/zombie/walking/1.png";
+
+let gunSprite = new Image();
+gunSprite.src = "./animations/Pistol.png";
+
+zombies.push(
+    {
+        sprite: zombieSprite,
+        start: canvas.width,
+        position: getRandomInt(5) * 80,
+        speed: getRandomInt(2) + 1
+    }
+)
 
 function changeCharacterImage()
 {
@@ -101,25 +120,34 @@ function changeZombieImage()
     switch (zombieSpriteImage)
     {
         case 1:
-            zombieSprite.src = "./animations/zombie/walking/2.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/2.png" : "./animations/zombie/walking/2.png";
             zombieSpriteImage = 2;
             break;
         case 2:
-            zombieSprite.src = "./animations/zombie/walking/3.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/3.png" : "./animations/zombie/walking/3.png";
             zombieSpriteImage = 3;
             break;
         case 3:
-            zombieSprite.src = "./animations/zombie/walking/4.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/4.png" : "./animations/zombie/walking/4.png";
             zombieSpriteImage = 4;
             break;
         case 4:
-            zombieSprite.src = "./animations/zombie/walking/1.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/1.png" : "./animations/zombie/walking/1.png";
             zombieSpriteImage = 1;
             break;
     }
 }
 
-window.setInterval(() => {zombies.push(new Zombie(getRandomInt(5) * 80, getRandomInt(2) + 1, zombieSprite))}, getRandomInt(10000) + 10000)
+window.setInterval(function() {
+    zombies.push(
+        {
+            sprite: zombieSprite,
+            start: canvas.width,
+            position: getRandomInt(5) * 80,
+            speed: getRandomInt(2) + 1
+        }
+    )
+}, getRandomInt(10000) + 10000)
 
 window.setInterval(changeCharacterImage, 100)
 
@@ -127,7 +155,7 @@ window.setInterval(changeZombieImage, 50)
 function animate()
 {
     requestAnimationFrame(animate);
-    context.clearRect(0,0,canvas.width,canvas.height);
+    context.clearRect(0,0,width,height);
     if(gameState == GameStates.Start){
         TitleScreen();
         if(key == "Enter"){
@@ -139,11 +167,17 @@ function animate()
     {
         drawLines();
         drawCharacter(sprite, 0, player.yCoord);
+
+        let disappearingZombies = null;
         for (let i = 0; i < zombies.length; i++)
         {
-            zombies[i].xCoord -= zombies[i].speed;
-            SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
+            zombies[i].start -= zombies[i].speed;
+            if (zombies[i].start <= 30)
+                disappearingZombies = i;
+            SpawnZombies(zombies[i].sprite, zombies[i].start, zombies[i].position);
         }
+        if (disappearingZombies != null) zombies.splice(disappearingZombies, 1);
+
         if(key == "w"){
             player.walk(key);
         }
@@ -161,7 +195,7 @@ function animate()
             GameOverScreen();
         }
         else if(key == ' '){
-            isWithinReach();
+            this.isWithinReach();
         }
     }
     else if(gameState == GameStates.Over){

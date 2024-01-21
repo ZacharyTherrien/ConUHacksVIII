@@ -2,7 +2,6 @@ const STARTHP = 10;
 const STARTINGX = 0;
 const STARTINGY = 0;
 let monsterStrength = 10;
-let monstersOnMap = [];
 
 class Monster{
     constructor(){
@@ -30,9 +29,9 @@ class Monster{
     }
 
     dealDamage(damage = 1){
-        this.hp-= damage;
-        if(this.hp <= 0)
-            this.isAlive = false;
+        this.hp -= damage;
+        this.isAlive = false;
+        return this.hp <= 0;
     }
 
     //need to revisit
@@ -57,7 +56,7 @@ class Monster{
         }else{
             //if the human is attacking
             if (this.isHuman){
-                monster.takeDamage(); 
+                monster.dealDamage(); 
                 //bullets decreasing?
                 //this.weapon.ammo -= 1;  
             }else{
@@ -66,21 +65,6 @@ class Monster{
         }
     }
 
-    reachOfBullet(monster){
-        let min = this.xCoord;
-        let zombieTarget;
-        if (monstersOnMap.length != 0){
-            for (const zombie of monstersOnMap){
-                let distance = this.xCoord - zombie.xCoord
-                if (min > distance){
-                    min = distance;
-                    zombieTarget = zombie;
-                    zombieTarget.strength = 0;
-                }
-            }
-            this.attack(zombieTarget);
-        }
-    }
 }
 
 class Player extends Monster{
@@ -88,16 +72,5 @@ class Player extends Monster{
         super();
         this.isHuman = true; 
         this.strength = 5;
-    }
-}
-
-class Zombie extends Monster{
-    constructor(yCoord, speed, sprite){
-        super();
-        this.yCoord = yCoord;
-        this.xCoord = canvas.width;
-        this.strength = 1;
-        this.speed = speed;
-        this.sprite = sprite;
     }
 }
