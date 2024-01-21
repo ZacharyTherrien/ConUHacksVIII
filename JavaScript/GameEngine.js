@@ -9,6 +9,7 @@ let player;
 let hpDisplayCount = 0;
 let hpX;
 let hpY;
+let difficulty = 1;
 
 var objDate = new Date();
 var hours = objDate.getHours();
@@ -88,7 +89,7 @@ function changeZombieDeathImage(){
 }
 
 window.setInterval(() => {
-    let doubleZombies = getRandomInt(100);
+    let doubleZombies = getRandomInt(100) / difficulty;
     zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))
 
     if (doubleZombies <= 70)
@@ -122,6 +123,12 @@ function animate()
             updatePlayerHpDisplay();
             updateScoreDisplay();
         }
+        else if(key == "1"){
+            difficulty = 1;
+        }
+        else if(key == "2"){
+            difficulty = 2;
+        }
     }
     else if(gameState == GameStates.Running)
     {
@@ -129,16 +136,16 @@ function animate()
         drawCharacter(sprite, 0, player.yCoord);
         drawHpDamage();
         let disappearingZombies = null;
-        //THIS SHOULD BE IN GAME.JS. SEAAAAAAAN. >:O
         for (let i = 0; i < zombies.length; i++)
         {
             if (zombies[i].hp > 0)
-                zombies[i].xCoord -= (zombies[i].speed + (zombies[i].hp / 10));
+                zombies[i].xCoord -= (zombies[i].speed + (zombies[i].hp / 9) - difficulty);
             
             if (zombies[i].xCoord <= 30){
                 disappearingZombies = i;
                 player.takeDamage(1);
                 context.fillStyle = "Red";
+                playSound("hurt");
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 //context.drawImage("./claw.png", 0, 0);
                 updatePlayerHpDisplay();
@@ -167,7 +174,7 @@ function animate()
         }
         else if(key == ' '){
             //Change gun for muzzle flash gun animation here! >:)
-
+            playSound("gunshot", 2);
             context.fillStyle = "White";
             context.fillRect(0, 0, canvas.width, canvas.height);
             this.isWithinReach();
@@ -183,6 +190,7 @@ function animate()
     key = '';
 }
 animate();
+initializaSounds();
 
 function drawLines(){
     context.strokeStyle = "white";

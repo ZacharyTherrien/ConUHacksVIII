@@ -1,7 +1,11 @@
 function TitleScreen(){
-    context.font = "30px monospace";
+    context.font = "25px monospace";
     context.fillStyle = "white";
-    context.fillText("Press \"Enter\" when ready...", 225, 100);
+    context.fillText("Choose your difficulty and press \"Enter\" when ready...", 75, 100);
+    context.fillStyle = difficulty == 1 ? "DeepSkyBlue" : "white";
+    context.fillText("1. Easy", 300, 150);
+    context.fillStyle = difficulty == 2 ? "red" : "white";
+    context.fillText("2. Hard", 500, 150);
 }
 
 function GameOverScreen(){

@@ -9,3 +9,16 @@ function arrayShift(arr, pos){
     }
     return newArr;
 }
+
+function initializaSounds(){
+    sounds = {
+        hurt: new Audio("sounds/playerHurt.wav"),
+        gunshot: new Audio("sounds/9mm_pistol.mp3"),
+    };
+}
+
+function playSound(name, playRate = 1){
+    sounds[name].currentTime = 0;
+    sounds[name].playbackRate = playRate;
+    sounds[name].play();
+}

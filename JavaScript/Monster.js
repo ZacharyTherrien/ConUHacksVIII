@@ -17,6 +17,7 @@ class Monster{
         if(this.isHuman){
             this.hp--;
             if (this.hp <= 0){
+                this.hp = 0;
                 this.isAlive = false;
                 gameState = GameStates.Over;
                 GameOverScreen();
@@ -76,6 +77,7 @@ class Player extends Monster{
 class Zombie extends Monster{
     constructor(sprite, row, speed){
         super();
+        this.hp += difficulty;
         this.sprite = sprite;
         this.STARTINGX = canvas.width;
         this.yCoord = row;
