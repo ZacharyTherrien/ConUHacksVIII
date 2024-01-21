@@ -11,3 +11,8 @@ function GameOverScreen(){
 function drawCharacter(sprite, x, y){
     context.drawImage(sprite, x, y, 65, 80);
 }
+
+function SpawnZombies(sprite, x, y)
+{
+    context.drawImage(sprite, x, y, 65, 80);
+}
