@@ -62,3 +62,94 @@ function animate(){
     key = '';
 }
 animate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function drawLines(){
+    context.strokeStyle = "white";
+    for(let i = 0; i < 5; i++){
+        context.beginPath();
+        context.setLineDash([25, 25]);
+        context.moveTo(0, 80 + (i * 80));
+        context.lineTo(canvas.width, 80 + (i * 80));
+        context.stroke();
+    }
+}
