@@ -1,35 +1,38 @@
-const STARTHP = 100;
-let alive = true;
+const STARTHP = 10;
 const STARTINGX = 0;
 const STARTINGY = 0;
 let monsterStrength = 10;
 let monstersOnMap = [];
-const MAXYCOORD = canvas.height;
 
 class Monster{
     constructor(){
         this.hp = STARTHP;
-        this.status = alive;
+        this.isAlive = true;
         this.xCoord = STARTINGX;
         this.yCoord = STARTINGY;
-        this.human = false;
+        this.isHuman = false;
         this.strength = monsterStrength;
     }
 
     takeDamage(damage){
-        if (this.hp <= damage){
-            this.status = false;
-            if (this.human){
-                //GAME ENDS
-                return;
-            }else{
-                //MONSTER DIES
-                let filtered = monstersOnMap.filter(zombie => zombie.strength == 0);
-                monstersOnMap = filtered;
+        if(this.isHuman){
+            this.hp--;
+            if (this.hp <= damage){
+                this.status = false;
+                gameState = GameStates.Over;
+                // }else{
+                //     //MONSTER DIES
+                //     let filtered = monstersOnMap.filter(zombie => zombie.strength == 0);
+                //     monstersOnMap = filtered;
+                // }
             }
-        }else{
-            this.hp -= damage;
-        } 
+        }
+    }
+
+    dealDamage(){
+        this.hp--;
+        this.isAlive = false;
+        return this.hp <= 0;
     }
 
     //need to revisit
@@ -46,15 +49,6 @@ class Monster{
             this.yCoord = canvas.height - 40;
         }
     }
-
-    isHuman(monster){
-        //zombie and human
-        if (this.isHuman =! monster.isHuman){
-            return false;
-        }else{
-            return true;
-        }
-    }
     
     attack(monster){
         //two zombies colliding
@@ -62,7 +56,7 @@ class Monster{
             return;
         }else{
             //if the human is attacking
-            if (this.human){
+            if (this.isHuman){
                 monster.takeDamage(); 
                 //bullets decreasing?
                 //this.weapon.ammo -= 1;  
@@ -92,7 +86,7 @@ class Monster{
 class Player extends Monster{
     constructor(){
         super();
-        this.human = true; 
+        this.isHuman = true; 
         this.strength = 0;
     }
 }
