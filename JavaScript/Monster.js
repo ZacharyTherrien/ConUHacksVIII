@@ -1,17 +1,18 @@
-const startHp = 100;
-const alive = true;
-const startingX = 0;
-const startingY;
-const monsterStrength = 10;
+const STARTHP = 100;
+let alive = true;
+const STARTINGX = 0;
+const STARTINGY = 0;
+let monsterStrength = 10;
 let monstersOnMap = [];
+const MAXXCOORD = canvas.width;
 
 class Monster{
     constructor(weapon){
-        this.hp = startHp;
+        this.hp = STARTHP;
         this.weapon = new Weapon();
         this.status = alive;
-        this.xCoord = startingX;
-        this.yCoord = startingY;
+        this.xCoord = STARTINGX;
+        this.yCoord = STARTINGY;
         this.human = false;
         this.strength = monsterStrength;
     }
@@ -24,8 +25,8 @@ class Monster{
                 return;
             }else{
                 //MONSTER DIES
-                let filtered = monstersOnMap.filter(zombie => zombie !== 3);
-                console.log(filtered);
+                let filtered = monstersOnMap.filter(zombie => zombie.strength == 0);
+                monstersOnMap = filtered;
             }
         }else{
             this.hp -= damage;
@@ -35,16 +36,16 @@ class Monster{
     //need to revisit
     walk(key){
         if (key == "d"){
-            if (this.xCoord < MAX X COORD){
+            if (this.xCoord < MAXXCOORD){
                 this.xCoord +=1;
             }else{
-                this.xCoord = startingX;
+                this.xCoord = STARTINGX;
             }
         }else if (key == "a"){
             if (this.xCoord > 0){
                 this.xCoord -= 1;
             }else{
-                this.xCoord = MAX X COORD;
+                this.xCoord = MAXXCOORD;
             }
         }
     }
@@ -64,7 +65,7 @@ class Monster{
             return;
         }else{
             //if the human is attacking
-            if (this.human ){
+            if (this.human){
                 monster.takeDamage(this.weapon.strength); 
                 //bullets decreasing?
                 //this.weapon.ammo -= 1;  
@@ -83,9 +84,10 @@ class Monster{
                 if (min > distance){
                     min = distance;
                     zombieTarget = zombie;
+                    zombieTarget.strength = 0;
                 }
             }
-            return this.attack(zombieTarget);
+            this.attack(zombieTarget);
         }
     }
 
