@@ -10,6 +10,11 @@ let hpDisplayCount = 0;
 let hpX;
 let hpY;
 let difficulty = 1;
+let titlePlayerX = 0;
+let titlePlayerY = 240;
+let titleZombieX = 80;
+let titleZombieY = 240;
+let characterWalkingIntervalId;
 
 var objDate = new Date();
 var hours = objDate.getHours();
@@ -106,8 +111,8 @@ window.setInterval(() => {
 
 }
 , getRandomInt(10000) + 4000);
-window.setInterval(changeCharacterImage, 100);
 window.setInterval(changeZombieImage, 50);
+characterWalkingIntervalId = window.setInterval(changeCharacterWalkingImage, 100);
 //window.setInterval(changeZombieDeathImage, 230);
 
 function animate()
@@ -116,8 +121,11 @@ function animate()
     context.clearRect(0, 0, canvas.width, canvas.height);
     if(gameState == GameStates.Start){
         TitleScreen();
+        drawLines();
         if(key == "Enter"){
             gameState = GameStates.Running;
+            window.clearInterval(characterWalkingIntervalId)
+            window.setInterval(changeCharacterImage, 100);
             zombies = [];
             player = new Player();
             updatePlayerHpDisplay();

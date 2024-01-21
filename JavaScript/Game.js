@@ -1,4 +1,16 @@
 function TitleScreen(){
+    //window.setInterval(changeZombieImage, 50);
+    drawCharacter(sprite, titlePlayerX, titlePlayerY);
+    titlePlayerX++;
+    if(titlePlayerX > canvas.width + 20){
+        titlePlayerX = -10;
+    }
+    SpawnZombies(zombieSprite, titleZombieX, titleZombieY);
+    titleZombieX++;
+    if(titleZombieX > canvas.width + 20){
+        titleZombieX = -10;
+    }
+    //Draw the difficulty on top of the player and zombies on title screen.
     context.font = "25px monospace";
     context.fillStyle = "white";
     context.fillText("Choose your difficulty and press \"Enter\" when ready...", 75, 100);
@@ -14,6 +26,10 @@ function GameOverScreen(){
     context.fillText("GAME OVER", 360, 100);
     context.fillStyle = "red";
     context.fillText("Press \"Enter\" to return to menu", 125, 150);
+    titlePlayerX = 0;
+    titlePlayerY = 240;
+    titleZombieX = 80;
+    titleZombieY = 240;
 }
 
 function drawCharacter(sprite, x, y){
