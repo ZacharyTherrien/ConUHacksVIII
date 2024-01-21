@@ -67,7 +67,8 @@ function animate()
     }
     else if(gameState == GameStates.Running)
     {
-        drawCharacter(sprite,0,player.yCoord);
+        drawLines();
+        drawCharacter(sprite, 0, player.yCoord);
         for (let i = 0; i < zombies.length; i++)
         {
             zombies[i].start -= zombies[i].speed;
@@ -98,86 +99,6 @@ function animate()
     key = '';
 }
 animate();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function drawLines(){
     context.strokeStyle = "white";
