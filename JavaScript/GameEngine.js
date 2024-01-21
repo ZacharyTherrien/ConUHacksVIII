@@ -141,7 +141,7 @@ window.setInterval(function() {
     )
 }, getRandomInt(10000) + 10000)
 
-window.setInterval(changeCharacterWalkingImage, 100)
+window.setInterval(changeCharacterImage, 100)
 
 window.setInterval(changeZombieImage, 50)
 function animate()
