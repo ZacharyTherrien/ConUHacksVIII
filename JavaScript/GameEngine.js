@@ -38,6 +38,9 @@ let zombieSpriteImage = 1;
 let zombieSprite = new Image();
 zombieSprite.src = "./animations/zombie/walking/1.png";
 
+let gunSprite = new Image();
+gunSprite.src = "./animations/Pistol.png";
+
 zombies.push(
     {
         sprite: zombieSprite,
@@ -159,6 +162,7 @@ function animate()
     {
         drawLines();
         drawCharacter(sprite, 0, player.yCoord);
+
         for (let i = 0; i < zombies.length; i++)
         {
             zombies[i].start -= zombies[i].speed;
