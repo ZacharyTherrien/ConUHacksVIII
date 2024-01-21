@@ -29,10 +29,10 @@ class Monster{
         }
     }
 
-    dealDamage(){
-        this.hp--;
-        this.isAlive = false;
-        return this.hp <= 0;
+    dealDamage(damage = 1){
+        this.hp-= damage;
+        if(this.hp <= 0)
+            this.isAlive = false;
     }
 
     //need to revisit
@@ -87,6 +87,17 @@ class Player extends Monster{
     constructor(){
         super();
         this.isHuman = true; 
-        this.strength = 0;
+        this.strength = 5;
+    }
+}
+
+class Zombie extends Monster{
+    constructor(yCoord, speed, sprite){
+        super();
+        this.yCoord = yCoord;
+        this.xCoord = canvas.width;
+        this.strength = 1;
+        this.speed = speed;
+        this.sprite = sprite;
     }
 }

@@ -2,10 +2,8 @@ let canvas = document.querySelector("canvas");
 let context = canvas.getContext("2d");
 let gameState;
 let ratio = 100;
-let width = 9 * ratio;
-let height = 4 * ratio;
-canvas.width = width;
-canvas.height = height;
+canvas.width = 9 * ratio;
+canvas.height = 4 * ratio;
 let key = "";
 let player;
 
@@ -30,22 +28,13 @@ let characterSpriteImage = 1;
 let characterWalkingSpriteImage = 1;
 let sprite = new Image();
 sprite.src = "./animations/man/idle/1.png";
-let zombies = 
-[
-]
+let zombies = []
 
 let zombieSpriteImage = 1;
 let zombieSprite = new Image();
 zombieSprite.src = "./animations/zombie/walking/1.png";
 
-zombies.push(
-    {
-        sprite: zombieSprite,
-        start: canvas.width,
-        position: getRandomInt(5) * 80,
-        speed: getRandomInt(2) + 1
-    }
-)
+zombies.push(new Zombie(getRandomInt(5) * 80, getRandomInt(2) + 1, zombieSprite));
 
 function changeCharacterImage()
 {
@@ -130,16 +119,7 @@ function changeZombieImage()
     }
 }
 
-window.setInterval(function() {
-    zombies.push(
-        {
-            sprite: zombieSprite,
-            start: canvas.width,
-            position: getRandomInt(5) * 80,
-            speed: getRandomInt(2) + 1
-        }
-    )
-}, getRandomInt(10000) + 10000)
+window.setInterval(() => {zombies.push(new Zombie(getRandomInt(5) * 80, getRandomInt(2) + 1, zombieSprite))}, getRandomInt(10000) + 10000)
 
 window.setInterval(changeCharacterImage, 100)
 
@@ -147,7 +127,7 @@ window.setInterval(changeZombieImage, 50)
 function animate()
 {
     requestAnimationFrame(animate);
-    context.clearRect(0,0,width,height);
+    context.clearRect(0,0,canvas.width,canvas.height);
     if(gameState == GameStates.Start){
         TitleScreen();
         if(key == "Enter"){
@@ -161,10 +141,9 @@ function animate()
         drawCharacter(sprite, 0, player.yCoord);
         for (let i = 0; i < zombies.length; i++)
         {
-            zombies[i].start -= zombies[i].speed;
-            SpawnZombies(zombies[i].sprite, zombies[i].start, zombies[i].position);
+            zombies[i].xCoord -= zombies[i].speed;
+            SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
         }
-
         if(key == "w"){
             player.walk(key);
         }
@@ -182,7 +161,7 @@ function animate()
             GameOverScreen();
         }
         else if(key == ' '){
-            this.isWithinReach();
+            isWithinReach();
         }
     }
     else if(gameState == GameStates.Over){
