@@ -151,7 +151,6 @@ function animate()
     if(gameState == GameStates.Start){
         TitleScreen();
         if(key == "Enter"){
-            alert("Game, start!");
             gameState = GameStates.Running;
             player = new Player();
         }
