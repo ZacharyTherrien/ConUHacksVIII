@@ -1,8 +1,13 @@
-let canvas;
-let context;
+let canvas = document.querySelector("canvas");
+let context = canvas.getContext("2d");
 let gameState;
-let width;
-let height;
+let ratio = 100;
+let width = 9 * ratio;
+let height = 4 * ratio;
+canvas.width = width;
+canvas.height = height;
+let grassHeight = 50;
+let key = "";
 
 const GameStates = {
     Title: "title",
@@ -14,50 +19,43 @@ const GameStates = {
 gameState = GameStates.Start;
 
 document.querySelector("html").onkeypress = function(press){
+    key = press.key;
+}
+function animate(){
+    requestAnimationFrame(animate);
+    context.clearRect(0,0,width,height);
+    context.fillStyle = "rgba(0,102,0)";
+    context.fillRect(0,height-grassHeight,width,height);
     if(gameState == GameStates.Start){
-        if(press.key == "Enter"){
+        TitleScreen();
+        if(key == "Enter"){
             alert("Game, start!");
             gameState = GameStates.Running;
         }
     }
     else if(gameState == GameStates.Running){
-        if(press.key == "w"){
-            alert(press.key);
+        if(key == "w"){
+            alert(key);
         }
-        else if(press.key  == "a"){
-            alert(press.key);
+        else if(key  == "a"){
+            alert(key);
         }
-        else if(press.key  == "s"){
-            alert(press.key);
+        else if(key  == "s"){
+            alert(key);
         }
-        else if(press.key  == "d"){
-            alert(press.key);
+        else if(key  == "d"){
+            alert(key);
         }
-        else if(press.key  == "1"){
+        else if(key  == "1"){
             gameState = GameStates.Over;
+            GameOverScreen();
             alert("End of game");
         }
     }
     else if(gameState == GameStates.Over){
         alert("Returning to start...");
-        gameState = GameStates.Title;
+        gameState = GameStates.Start;
     }
+    key = '';
 }
-
-function SetupCanvas(){
-    canvas = document.querySelector("canvas");
-    context = canvas.getContext("2d");
-    let ratio = 100;
-    width = 9 * ratio;
-    height = 4 * ratio;
-    canvas.width = width;
-    canvas.height = height;
-    // canvas.style.height = height;
-    // canvas.style.width = width;
-}
-
-function Draw(){
-    context.clear(0,0,width,height);
-}
-
-SetupCanvas();
+animate();
