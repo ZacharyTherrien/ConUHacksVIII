@@ -168,11 +168,15 @@ function animate()
         drawLines();
         drawCharacter(sprite, 0, player.yCoord);
 
+        let disappearingZombies = null;
         for (let i = 0; i < zombies.length; i++)
         {
             zombies[i].start -= zombies[i].speed;
+            if (zombies[i].start <= 30)
+                disappearingZombies = i;
             SpawnZombies(zombies[i].sprite, zombies[i].start, zombies[i].position);
         }
+        if (disappearingZombies != null) zombies.splice(disappearingZombies, 1);
 
         if(key == "w"){
             player.walk(key);
