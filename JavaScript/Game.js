@@ -9,10 +9,10 @@ function GameOverScreen(){
 }
 
 function drawCharacter(sprite, x, y){
-    context.drawImage(sprite, x, y, 65, 80);
+    context.drawImage(sprite, x, y, 55, 80);
 }
 
 function SpawnZombies(sprite, x, y)
 {
-    context.drawImage(sprite, x, y, 65, 80);
+    context.drawImage(sprite, x, y, 55, 80);
 }
