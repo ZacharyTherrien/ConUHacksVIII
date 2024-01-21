@@ -4,10 +4,10 @@ const STARTINGX = 0;
 const STARTINGY = 0;
 let monsterStrength = 10;
 let monstersOnMap = [];
-const MAXXCOORD = canvas.width;
+const MAXYCOORD = canvas.height;
 
 class Monster{
-    constructor(weapon){
+    constructor(){
         this.hp = STARTHP;
         this.weapon = new Weapon();
         this.status = alive;
@@ -35,17 +35,17 @@ class Monster{
 
     //need to revisit
     walk(key){
-        if (key == "d"){
-            if (this.xCoord < MAXXCOORD){
-                this.xCoord +=1;
+        if (key == "a"){
+            if (this.yCoord < MAXYCOORD-10){
+                this.yCoord +=10;
             }else{
-                this.xCoord = STARTINGX;
+                this.yCoord = STARTINGY;
             }
-        }else if (key == "a"){
-            if (this.xCoord > 0){
-                this.xCoord -= 1;
+        }else if (key == "d"){
+            if (this.yCoord > 10){
+                this.yCoord -= 10;
             }else{
-                this.xCoord = MAXXCOORD;
+                this.yCoord = MAXYCOORD;
             }
         }
     }
@@ -91,5 +91,12 @@ class Monster{
         }
     }
 
+}
 
+class Player extends Monster{
+    constructor(){
+        super.constructor();
+        this.human = true; 
+        this.strength = 0;
+    }
 }
