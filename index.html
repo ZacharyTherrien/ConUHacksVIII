@@ -5,11 +5,23 @@
     <link rel="stylesheet" href="./style.css">
 </header>
 <body>
-    <canvas></canvas>
-    <script src="./JavaScript/Game.js"></script>
-    <script src="./JavaScript/GameEngine.js"></script>
-    <script src="./JavaScript/Monster.js"></script>
-    <script src="./JavaScript/Bullet.js"></script>
-    <script src="./JavaScript/Map.js"></script>
-    <script src="./JavaScript/Utility.js"></script>
-</body>
+    <div id="opening-page">
+        <h1>Welcome to the Game!</h1>
+        <button id="start-button">Start Game</button>
+    </div>
+    
+    <div id="game-container" style="display: none;">
+    
+        <canvas id = "game-canvas">
+        </canvas>
+        <script src="./JavaScript/OpeningPage.js"></script>
+        <script src="./JavaScript/Game.js"></script>
+        <script src="./JavaScript/GameEngine.js"></script>
+        <script src="./JavaScript/Monster.js"></script>
+        <script src="./JavaScript/Map.js"></script>
+        <script src="./JavaScript/Utility.js"></script>
+
+    </div>
+
+    </body>
+    </html>
