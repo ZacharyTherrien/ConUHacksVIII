@@ -74,3 +74,14 @@ class Player extends Monster{
         this.strength = 5;
     }
 }
+
+class Zombie extends Monster{
+    constructor(sprite, row, speed){
+        super();
+        this.sprite = sprite;
+        this.STARTINGX = canvas.width;
+        this.yCoord = row;
+        this.speed = speed;
+        this.xCoord = this.STARTINGX;
+    }
+}

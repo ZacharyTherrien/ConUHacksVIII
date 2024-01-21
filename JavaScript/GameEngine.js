@@ -2,10 +2,8 @@ let canvas = document.querySelector("canvas");
 let context = canvas.getContext("2d");
 let gameState;
 let ratio = 100;
-let width = 9 * ratio;
-let height = 4 * ratio;
-canvas.width = width;
-canvas.height = height;
+canvas.width = 9 * ratio;
+canvas. height = 4 * ratio;
 let key = "";
 let player;
 
@@ -46,14 +44,15 @@ else
 let gunSprite = new Image();
 gunSprite.src = "./animations/Pistol.png";
 
-zombies.push(
-    {
-        sprite: zombieSprite,
-        start: canvas.width,
-        position: getRandomInt(5) * 80,
-        speed: getRandomInt(2) + 1
-    }
-)
+// zombies.push(
+//     {
+//         sprite: zombieSprite,
+//         start: zombieSprite,
+//         position: getRandomInt(5) * 80,
+//         speed: getRandomInt(2) + 1
+//     }
+// )
+zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1));
 
 function changeCharacterImage()
 {
@@ -138,16 +137,7 @@ function changeZombieImage()
     }
 }
 
-window.setInterval(function() {
-    zombies.push(
-        {
-            sprite: zombieSprite,
-            start: canvas.width,
-            position: getRandomInt(5) * 80,
-            speed: getRandomInt(2) + 1
-        }
-    )
-}, getRandomInt(10000) + 10000)
+window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 10000)
 
 window.setInterval(changeCharacterImage, 100)
 
@@ -155,7 +145,7 @@ window.setInterval(changeZombieImage, 50)
 function animate()
 {
     requestAnimationFrame(animate);
-    context.clearRect(0,0,width,height);
+    context.clearRect(0,0,canvas.width,canvas.height);
     if(gameState == GameStates.Start){
         TitleScreen();
         if(key == "Enter"){
@@ -171,10 +161,10 @@ function animate()
         let disappearingZombies = null;
         for (let i = 0; i < zombies.length; i++)
         {
-            zombies[i].start -= zombies[i].speed;
-            if (zombies[i].start <= 30)
+            zombies[i].xCoord -= zombies[i].speed;
+            if (zombies[i].xCoord <= 30)
                 disappearingZombies = i;
-            SpawnZombies(zombies[i].sprite, zombies[i].start, zombies[i].position);
+            SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
         }
         if (disappearingZombies != null) zombies.splice(disappearingZombies, 1);
 
