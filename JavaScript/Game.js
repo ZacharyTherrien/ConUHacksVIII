@@ -19,9 +19,19 @@ function SpawnZombies(sprite, x, y)
 }
 
 function isWithinReach(){
-for (let i = 0; i < zombies.length; i++){
-    if (player.yCoord <= zombies[i].yCoord+5 && player.yCoord >= zombies[i].yCoord - 5){
-        alert("Shot");
+    for (let i = 0; i < zombies.length; i++){
+        if (player.yCoord <= zombies[i].yCoord+5 && player.yCoord >= zombies[i].yCoord - 5){
+           zombies[i].dealDamage(player.strength);
+           zombies[i].xCoord += 15;
+        }
+        if(zombies[i].hp <= 0)
+        {
+            console.log("0")
+            setTimeout(5000);
+            console.log("5000!")
+            zombies[i] = null;
+            zombies = arrayShift(zombies, i);
+            break;
+        }
     }
-}
 }
