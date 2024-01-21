@@ -9,7 +9,6 @@ const MAXYCOORD = canvas.height;
 class Monster{
     constructor(){
         this.hp = STARTHP;
-        this.weapon = new Weapon();
         this.status = alive;
         this.xCoord = STARTINGX;
         this.yCoord = STARTINGY;
@@ -35,18 +34,16 @@ class Monster{
 
     //need to revisit
     walk(key){
-        if (key == "a"){
-            if (this.yCoord < MAXYCOORD-10){
-                this.yCoord +=10;
-            }else{
-                this.yCoord = STARTINGY;
-            }
-        }else if (key == "d"){
-            if (this.yCoord > 10){
-                this.yCoord -= 10;
-            }else{
-                this.yCoord = MAXYCOORD;
-            }
+        if (key == "a" || key == "s"){
+            this.yCoord +=10;
+        }else if (key == "d" || key == "w"){
+            this.yCoord -= 10;
+        }
+        if(this.yCoord > canvas.height - 40){
+            this.yCoord = -50;
+        }
+        else if(this.yCoord < -50){
+            this.yCoord = canvas.height - 40;
         }
     }
 
@@ -66,7 +63,7 @@ class Monster{
         }else{
             //if the human is attacking
             if (this.human){
-                monster.takeDamage(this.weapon.strength); 
+                monster.takeDamage(); 
                 //bullets decreasing?
                 //this.weapon.ammo -= 1;  
             }else{
@@ -90,12 +87,11 @@ class Monster{
             this.attack(zombieTarget);
         }
     }
-
 }
 
 class Player extends Monster{
     constructor(){
-        super.constructor();
+        super();
         this.human = true; 
         this.strength = 0;
     }

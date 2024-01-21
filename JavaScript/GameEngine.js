@@ -7,6 +7,7 @@ let height = 4 * ratio;
 canvas.width = width;
 canvas.height = height;
 let key = "";
+let player;
 
 const GameStates = {
     Title: "title",
@@ -32,26 +33,26 @@ function animate(){
         if(key == "Enter"){
             alert("Game, start!");
             gameState = GameStates.Running;
+            player = new Player();
         }
     }
     else if(gameState == GameStates.Running){
-        drawCharacter(sprite,0,0);
+        drawCharacter(sprite,0,player.yCoord);
         if(key == "w"){
-            alert(key);
+            player.walk(key);
         }
         else if(key  == "a"){
-            alert(key);
+            player.walk(key);
         }
         else if(key  == "s"){
-            alert(key);
+            player.walk(key);
         }
         else if(key  == "d"){
-            alert(key);
+            player.walk(key);
         }
         else if(key  == "1"){
             gameState = GameStates.Over;
             GameOverScreen();
-            alert("End of game");
         }
     }
     else if(gameState == GameStates.Over){
