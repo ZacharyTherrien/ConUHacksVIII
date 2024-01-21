@@ -10,3 +10,8 @@ canvas{
     background-color: rgb(71, 71, 71);
     align-content: center;
 }
+
+@font-face {
+    font-family: ShotgunWedding;
+    src: url(./animations/Shotgunwedding-W0OE.otf);
+}

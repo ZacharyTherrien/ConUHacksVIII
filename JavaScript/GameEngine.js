@@ -87,7 +87,24 @@ function changeZombieDeathImage(){
     zombieDeathSprite.src = "./animations/zombie/death/" + pngString;
 }
 
-window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 4000);
+window.setInterval(() => {
+    let doubleZombies = getRandomInt(100);
+    zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))
+
+    if (doubleZombies <= 70)
+        zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))
+    
+    if (doubleZombies <= 45)
+        zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))
+
+    if (doubleZombies <= 20)
+        zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))
+
+    if (doubleZombies <= 5)
+        zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))
+
+}
+, getRandomInt(10000) + 4000);
 window.setInterval(changeCharacterImage, 100);
 window.setInterval(changeZombieImage, 50);
 //window.setInterval(changeZombieDeathImage, 230);
@@ -100,6 +117,7 @@ function animate()
         TitleScreen();
         if(key == "Enter"){
             gameState = GameStates.Running;
+            zombies = [];
             player = new Player();
             updatePlayerHpDisplay();
             updateScoreDisplay();
@@ -150,6 +168,8 @@ function animate()
         else if(key == ' '){
             //Change gun for muzzle flash gun animation here! >:)
 
+            context.fillStyle = "White";
+            context.fillRect(0, 0, canvas.width, canvas.height);
             this.isWithinReach();
         }
     }
