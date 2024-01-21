@@ -6,7 +6,6 @@ let width = 9 * ratio;
 let height = 4 * ratio;
 canvas.width = width;
 canvas.height = height;
-let grassHeight = 50;
 let key = "";
 
 const GameStates = {
@@ -16,6 +15,10 @@ const GameStates = {
     End: "End"
 }
 
+let sprite = new Image();
+sprite.src = "./animations/man/idle/1.png";
+drawCharacter(sprite,0,0);
+
 gameState = GameStates.Start;
 
 document.querySelector("html").onkeypress = function(press){
@@ -24,8 +27,6 @@ document.querySelector("html").onkeypress = function(press){
 function animate(){
     requestAnimationFrame(animate);
     context.clearRect(0,0,width,height);
-    context.fillStyle = "rgba(0,102,0)";
-    context.fillRect(0,height-grassHeight,width,height);
     if(gameState == GameStates.Start){
         TitleScreen();
         if(key == "Enter"){
@@ -34,6 +35,7 @@ function animate(){
         }
     }
     else if(gameState == GameStates.Running){
+        drawCharacter(sprite,0,0);
         if(key == "w"){
             alert(key);
         }

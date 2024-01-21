@@ -7,3 +7,7 @@ function GameOverScreen(){
     context.fillStyle = "red";
     context.fillText("GAME OVER", 200, 100);
 }
+
+function drawCharacter(sprite, x, y){
+    context.drawImage(sprite, x, y, 65, 80);
+}
