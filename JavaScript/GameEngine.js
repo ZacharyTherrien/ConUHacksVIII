@@ -9,6 +9,9 @@ canvas.height = height;
 let key = "";
 let player;
 
+var objDate = new Date();
+var hours = objDate.getHours();
+
 const GameStates = {
     Title: "title",
     Running: "running",
@@ -30,13 +33,15 @@ let characterSpriteImage = 1;
 let characterWalkingSpriteImage = 1;
 let sprite = new Image();
 sprite.src = "./animations/man/idle/1.png";
-let zombies = 
-[
-]
+let zombies = []
 
 let zombieSpriteImage = 1;
 let zombieSprite = new Image();
-zombieSprite.src = "./animations/zombie/walking/1.png";
+
+if (hours == 3)
+    zombieSprite.src = "./animations/zombie/special/1.png";
+else
+    zombieSprite.src = "./animations/zombie/walking/1.png";
 
 let gunSprite = new Image();
 gunSprite.src = "./animations/Pistol.png";
@@ -115,19 +120,19 @@ function changeZombieImage()
     switch (zombieSpriteImage)
     {
         case 1:
-            zombieSprite.src = "./animations/zombie/walking/2.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/2.png" : "./animations/zombie/walking/2.png";
             zombieSpriteImage = 2;
             break;
         case 2:
-            zombieSprite.src = "./animations/zombie/walking/3.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/3.png" : "./animations/zombie/walking/3.png";
             zombieSpriteImage = 3;
             break;
         case 3:
-            zombieSprite.src = "./animations/zombie/walking/4.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/4.png" : "./animations/zombie/walking/4.png";
             zombieSpriteImage = 4;
             break;
         case 4:
-            zombieSprite.src = "./animations/zombie/walking/1.png";
+            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/1.png" : "./animations/zombie/walking/1.png";
             zombieSpriteImage = 1;
             break;
     }
