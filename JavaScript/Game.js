@@ -16,3 +16,11 @@ function SpawnZombies(sprite, x, y)
 {
     context.drawImage(sprite, x, y, 55, 80);
 }
+
+function isWithinReach(){
+for (let i = 0; i < zombies.length; i++){
+    if (player.yCoord <= zombies[i].yCoord+5 && player.yCoord >= zombies[i].yCoord - 5){
+        alert("Shot");
+    }
+}
+}

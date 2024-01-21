@@ -181,6 +181,9 @@ function animate()
             gameState = GameStates.Over;
             GameOverScreen();
         }
+        else if(key == ' '){
+            this.isWithinReach();
+        }
     }
     else if(gameState == GameStates.Over){
         alert("Returning to start...");
