@@ -81,14 +81,13 @@ function changeZombieImage()
 }
 function changeZombieDeathImage(){
     zombieDeathSpriteImage++;
-    if(zombieDeathSprite == 23){
+    if(zombieDeathSprite == 24)
         zombieDeathSpriteImage = 1;
-    }
-    let pngString =zombieDeathSprite + ".png";
+    let pngString = zombieDeathSprite + ".png";
     zombieDeathSprite.src = "./animations/zombie/death/" + pngString;
 }
 
-window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 10000);
+window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 4000);
 window.setInterval(changeCharacterImage, 100);
 window.setInterval(changeZombieImage, 50);
 //window.setInterval(changeZombieDeathImage, 230);
@@ -96,7 +95,7 @@ window.setInterval(changeZombieImage, 50);
 function animate()
 {
     requestAnimationFrame(animate);
-    context.clearRect(0,0,canvas.width,canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
     if(gameState == GameStates.Start){
         TitleScreen();
         if(key == "Enter"){
@@ -115,13 +114,20 @@ function animate()
         //THIS SHOULD BE IN GAME.JS. SEAAAAAAAN. >:O
         for (let i = 0; i < zombies.length; i++)
         {
-            zombies[i].xCoord -= zombies[i].speed;
+            if (zombies[i].hp > 0)
+                zombies[i].xCoord -= (zombies[i].speed + (zombies[i].hp / 10));
+            
             if (zombies[i].xCoord <= 30){
                 disappearingZombies = i;
                 player.takeDamage(1);
+                context.fillStyle = "Red";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                //context.drawImage("./claw.png", 0, 0);
                 updatePlayerHpDisplay();
             }
-            SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
+            if (zombies[i].hp > 0)
+                SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
+            else SpawnDeadZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord)
         }
         if (disappearingZombies != null) zombies.splice(disappearingZombies, 1);
 

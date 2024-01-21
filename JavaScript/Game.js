@@ -14,7 +14,7 @@ function GameOverScreen(){
 
 function drawCharacter(sprite, x, y){
     context.drawImage(sprite, x, y, 55, 80);
-    context.drawImage(gunSprite, x+9, y+34, 35, 35);
+    context.drawImage(gunSprite, x + 9, y + 34, 35, 35);
 }
 
 function drawHpDamage(){
@@ -39,23 +39,43 @@ function SpawnZombies(sprite, x, y)
     context.drawImage(sprite, x, y, 55, 80);
 }
 
+function SpawnDeadZombies(sprite, x, y)
+{
+    context.drawImage(sprite, x, y, 100, 100);
+}
+
 function isWithinReach(){
-    for (let i = 0; i < zombies.length; i++){
-        if (player.yCoord <= zombies[i].yCoord+5 && player.yCoord >= zombies[i].yCoord - 5){
-            zombies[i].dealDamage(player.strength);
-            zombies[i].xCoord += 15;
-            hpX = zombies[i].xCoord;
-            hpY = zombies[i].yCoord;
-            hpDisplayCount = 50;
-            player.score += 50;
+    for (let i = 0; i < zombies.length; i++)
+    {
+        if (!(zombies[i].hp <= 0))
+        {
+            if (player.yCoord <= zombies[i].yCoord + 5 && player.yCoord >= zombies[i].yCoord - 5)
+            {
+                zombies[i].dealDamage(player.strength);
+                zombies[i].xCoord += 15;
+                hpX = zombies[i].xCoord;
+                hpY = zombies[i].yCoord;
+                hpDisplayCount = 50;
+                player.score += 50;
+            }
         }
         if(zombies[i].hp <= 0){
-            console.log("0")
-            setTimeout(1000);
-            console.log("1000!")
-            zombies[i] = null;
-            zombies = arrayShift(zombies, i);
-            player.score += 1000;
+            //zombieDeathSpriteImage = 1;
+            /*let deathInterval = window.setInterval(() => 
+            {
+                console.log(zombies[i].sprite.src)
+                zombieDeathSpriteImage++;
+                if(zombieDeathSprite == 23) zombieDeathSpriteImage = 23;
+                let pngString = zombieDeathSprite + ".png";
+                zombies[i].sprite.src = "./animations/zombie/death/" + pngString;
+            }, 100);*/
+            //setTimeout(() => 
+            //{
+                player.score += 1000;
+                //window.clearInterval(deathInterval);
+                zombies[i] = null;
+                zombies = arrayShift(zombies, i);
+            //}, 4000);
             //The break statement will prevent piercing damage.
             break;
         }
