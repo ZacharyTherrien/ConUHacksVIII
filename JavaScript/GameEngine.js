@@ -56,85 +56,26 @@ zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1)
 
 function changeCharacterImage()
 {
-    switch (characterSpriteImage)
-    {
-        case 1:
-            sprite.src = "./animations/man/idle/2.png";
-            characterSpriteImage = 2;
-            break;
-        case 2:
-            sprite.src = "./animations/man/idle/3.png";
-            characterSpriteImage = 3;
-            break;
-        case 3:
-            sprite.src = "./animations/man/idle/4.png";
-            characterSpriteImage = 4;
-            break;
-        case 4:
-            sprite.src = "./animations/man/idle/1.png";
-            characterSpriteImage = 1;
-            break;
-    }
+    characterSpriteImage++;
+    if (characterSpriteImage == 5) characterSpriteImage = 1;
+    let pngString = characterSpriteImage + ".png"
+    sprite.src = "./animations/man/idle/" + pngString;
 }
 function changeCharacterWalkingImage()
 {
-    switch (characterWalkingSpriteImage)
-    {
-        case 1:
-            sprite.src = "./animations/man/walking/2.png";
-            characterWalkingSpriteImage = 2;
-            break;
-        case 2:
-            sprite.src = "./animations/man/walking/3.png";
-            characterWalkingSpriteImage = 3;
-            break;
-        case 3:
-            sprite.src = "./animations/man/walking/4.png";
-            characterWalkingSpriteImage = 4;
-            break;
-        case 4:
-            sprite.src = "./animations/man/walking/5.png";
-            characterWalkingSpriteImage = 5;
-            break;
-        case 5:
-            sprite.src = "./animations/man/walking/6.png";
-            characterWalkingSpriteImage = 6;
-            break;
-        case 6:
-            sprite.src = "./animations/man/walking/7.png";
-            characterWalkingSpriteImage = 7;
-            break;
-        case 7:
-            sprite.src = "./animations/man/walking/8.png";
-            characterWalkingSpriteImage = 8;
-            break;
-        case 8:
-            sprite.src = "./animations/man/walking/1.png";
-            characterWalkingSpriteImage = 1;
-            break;
-    }
+    characterWalkingSpriteImage++;
+    if (characterWalkingSpriteImage == 9) characterWalkingSpriteImage = 1;
+    let pngString = characterWalkingSpriteImage + ".png"
+    sprite.src = "./animations/man/walking/" + pngString;
 }
 function changeZombieImage()
 {
-    switch (zombieSpriteImage)
-    {
-        case 1:
-            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/2.png" : "./animations/zombie/walking/2.png";
-            zombieSpriteImage = 2;
-            break;
-        case 2:
-            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/3.png" : "./animations/zombie/walking/3.png";
-            zombieSpriteImage = 3;
-            break;
-        case 3:
-            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/4.png" : "./animations/zombie/walking/4.png";
-            zombieSpriteImage = 4;
-            break;
-        case 4:
-            zombieSprite.src = (hours == 3) ? "./animations/zombie/special/1.png" : "./animations/zombie/walking/1.png";
-            zombieSpriteImage = 1;
-            break;
-    }
+    zombieSpriteImage++;
+    if (zombieSpriteImage == 5) zombieSpriteImage = 1;
+    let pngString = zombieSpriteImage + ".png"
+    zombieSprite.src = (hours == 3) ?
+     "./animations/zombie/special/" + pngString : 
+     "./animations/zombie/walking/" + pngString;
 }
 
 window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 10000)
