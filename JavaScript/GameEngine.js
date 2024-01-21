@@ -139,7 +139,7 @@ window.setInterval(function() {
             speed: getRandomInt(2) + 1
         }
     )
-}, getRandomInt(3000))
+}, getRandomInt(10000) + 10000)
 
 window.setInterval(changeCharacterWalkingImage, 100)
 
