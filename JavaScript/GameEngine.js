@@ -6,6 +6,9 @@ canvas.width = 9 * ratio;
 canvas. height = 4 * ratio;
 let key = "";
 let player;
+let hpDisplayCount = 0;
+let hpX;
+let hpY;
 
 var objDate = new Date();
 var hours = objDate.getHours();
@@ -36,6 +39,10 @@ let zombies = []
 let zombieSpriteImage = 1;
 let zombieSprite = new Image();
 
+let zombieDeathSpriteImage = 1;
+let zombieDeathSprite = new Image();
+
+//Best reference ever, thx, Sean. :teary_eyes:
 if (hours == 3)
     zombieSprite.src = "./animations/zombie/special/1.png";
 else
@@ -44,45 +51,48 @@ else
 let gunSprite = new Image();
 gunSprite.src = "./animations/Pistol.png";
 
-// zombies.push(
-//     {
-//         sprite: zombieSprite,
-//         start: zombieSprite,
-//         position: getRandomInt(5) * 80,
-//         speed: getRandomInt(2) + 1
-//     }
-// )
 zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1));
 
 function changeCharacterImage()
 {
     characterSpriteImage++;
-    if (characterSpriteImage == 5) characterSpriteImage = 1;
-    let pngString = characterSpriteImage + ".png"
+    if (characterSpriteImage == 5) 
+        characterSpriteImage = 1;
+    let pngString = characterSpriteImage + ".png";
     sprite.src = "./animations/man/idle/" + pngString;
 }
 function changeCharacterWalkingImage()
 {
     characterWalkingSpriteImage++;
-    if (characterWalkingSpriteImage == 9) characterWalkingSpriteImage = 1;
-    let pngString = characterWalkingSpriteImage + ".png"
+    if (characterWalkingSpriteImage == 9) 
+        characterWalkingSpriteImage = 1;
+    let pngString = characterWalkingSpriteImage + ".png";
     sprite.src = "./animations/man/walking/" + pngString;
 }
 function changeZombieImage()
 {
     zombieSpriteImage++;
-    if (zombieSpriteImage == 5) zombieSpriteImage = 1;
-    let pngString = zombieSpriteImage + ".png"
+    if (zombieSpriteImage == 5) 
+        zombieSpriteImage = 1;
+    let pngString = zombieSpriteImage + ".png";
     zombieSprite.src = (hours == 3) ?
      "./animations/zombie/special/" + pngString : 
      "./animations/zombie/walking/" + pngString;
 }
+function changeZombieDeathImage(){
+    zombieDeathSpriteImage++;
+    if(zombieDeathSprite == 23){
+        zombieDeathSpriteImage = 1;
+    }
+    let pngString =zombieDeathSprite + ".png";
+    zombieDeathSprite.src = "./animations/zombie/death/" + pngString;
+}
 
-window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 10000)
+window.setInterval(() => {zombies.push(new Zombie(zombieSprite, getRandomInt(5) * 80, getRandomInt(2) + 1))}, getRandomInt(10000) + 10000);
+window.setInterval(changeCharacterImage, 100);
+window.setInterval(changeZombieImage, 50);
+//window.setInterval(changeZombieDeathImage, 230);
 
-window.setInterval(changeCharacterImage, 100)
-
-window.setInterval(changeZombieImage, 50)
 function animate()
 {
     requestAnimationFrame(animate);
@@ -92,19 +102,25 @@ function animate()
         if(key == "Enter"){
             gameState = GameStates.Running;
             player = new Player();
+            updatePlayerHpDisplay();
+            updateScoreDisplay();
         }
     }
     else if(gameState == GameStates.Running)
     {
         drawLines();
         drawCharacter(sprite, 0, player.yCoord);
-
+        drawHpDamage();
         let disappearingZombies = null;
+        //THIS SHOULD BE IN GAME.JS. SEAAAAAAAN. >:O
         for (let i = 0; i < zombies.length; i++)
         {
             zombies[i].xCoord -= zombies[i].speed;
-            if (zombies[i].xCoord <= 30)
+            if (zombies[i].xCoord <= 30){
                 disappearingZombies = i;
+                player.takeDamage(1);
+                updatePlayerHpDisplay();
+            }
             SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
         }
         if (disappearingZombies != null) zombies.splice(disappearingZombies, 1);
@@ -126,12 +142,17 @@ function animate()
             GameOverScreen();
         }
         else if(key == ' '){
+            //Change gun for muzzle flash gun animation here! >:)
+
             this.isWithinReach();
         }
     }
     else if(gameState == GameStates.Over){
-        alert("Returning to start...");
-        gameState = GameStates.Start;
+        GameOverScreen();
+        drawLines();
+        if(key == "Enter"){
+            gameState = GameStates.Start;
+        }
     }
     key = '';
 }

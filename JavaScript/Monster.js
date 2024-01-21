@@ -1,7 +1,7 @@
-const STARTHP = 10;
+const STARTHP = 15;
 const STARTINGX = 0;
 const STARTINGY = 0;
-let monsterStrength = 10;
+let monsterStrength = 1;
 
 class Monster{
     constructor(){
@@ -16,14 +16,10 @@ class Monster{
     takeDamage(damage){
         if(this.isHuman){
             this.hp--;
-            if (this.hp <= damage){
-                this.status = false;
+            if (this.hp <= 0){
+                this.isAlive = false;
                 gameState = GameStates.Over;
-                // }else{
-                //     //MONSTER DIES
-                //     let filtered = monstersOnMap.filter(zombie => zombie.strength == 0);
-                //     monstersOnMap = filtered;
-                // }
+                GameOverScreen();
             }
         }
     }
@@ -70,8 +66,10 @@ class Monster{
 class Player extends Monster{
     constructor(){
         super();
+        this.hp = 3;
         this.isHuman = true; 
         this.strength = 5;
+        this.score = 0;
     }
 }
 
