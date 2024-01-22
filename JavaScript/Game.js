@@ -1,5 +1,4 @@
 function TitleScreen(){
-    //window.setInterval(changeZombieImage, 50);
     drawCharacter(sprite, titlePlayerX, titlePlayerY);
     titlePlayerX++;
     if(titlePlayerX > canvas.width + 20){
@@ -8,7 +7,7 @@ function TitleScreen(){
     SpawnZombies(zombieSprite, titleZombieX, titleZombieY);
     titleZombieX++;
     if(titleZombieX > canvas.width + 20){
-        titleZombieX = -10;
+        titleZombieX = -30;
     }
     //Draw the difficulty on top of the player and zombies on title screen.
     context.font = "25px monospace";

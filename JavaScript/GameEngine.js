@@ -14,7 +14,7 @@ let titlePlayerX = 0;
 let titlePlayerY = 240;
 let titleZombieX = 80;
 let titleZombieY = 240;
-let characterWalkingIntervalId;
+let fireRate = 0;
 
 var objDate = new Date();
 var hours = objDate.getHours();
@@ -111,8 +111,10 @@ window.setInterval(() => {
 
 }
 , getRandomInt(10000) + 4000);
+
 window.setInterval(changeZombieImage, 50);
-characterWalkingIntervalId = window.setInterval(changeCharacterWalkingImage, 100);
+let characterWalkingInterval = setInterval(changeCharacterWalkingImage, 100);
+let characterIdleInterval;
 //window.setInterval(changeZombieDeathImage, 230);
 
 function animate()
@@ -124,12 +126,12 @@ function animate()
         drawLines();
         if(key == "Enter"){
             gameState = GameStates.Running;
-            window.clearInterval(characterWalkingIntervalId)
-            window.setInterval(changeCharacterImage, 100);
+            clearInterval(characterWalkingInterval);
             zombies = [];
             player = new Player();
             updatePlayerHpDisplay();
             updateScoreDisplay();
+            characterIdleInterval = setInterval(changeCharacterImage, 100);
         }
         else if(key == "1"){
             difficulty = 1;
@@ -143,13 +145,15 @@ function animate()
         drawLines();
         drawCharacter(sprite, 0, player.yCoord);
         drawHpDamage();
+        if(fireRate > 0)
+            fireRate--;
         let disappearingZombies = null;
         for (let i = 0; i < zombies.length; i++)
         {
             if (zombies[i].hp > 0)
                 zombies[i].xCoord -= (zombies[i].speed + (zombies[i].hp / 9) - difficulty);
             
-            if (zombies[i].xCoord <= 30){
+            if (zombies[i].xCoord <= 35){
                 disappearingZombies = i;
                 player.takeDamage(1);
                 context.fillStyle = "Red";
@@ -182,17 +186,22 @@ function animate()
         }
         else if(key == ' '){
             //Change gun for muzzle flash gun animation here! >:)
-            playSound("gunshot", 2);
-            context.fillStyle = "White";
-            context.fillRect(0, 0, canvas.width, canvas.height);
-            this.isWithinReach();
+            if(fireRate <= 0){
+                playSound("gunshot", 2);
+                context.fillStyle = "White";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                this.isWithinReach();
+                fireRate = 25;
+            }
         }
     }
     else if(gameState == GameStates.Over){
         GameOverScreen();
         drawLines();
+        clearInterval(characterIdleInterval);
         if(key == "Enter"){
             gameState = GameStates.Start;
+            characterWalkingInterval = setInterval(changeCharacterWalkingImage, 100);
         }
     }
     key = '';
