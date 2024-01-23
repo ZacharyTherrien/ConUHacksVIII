@@ -3,7 +3,7 @@ let context = canvas.getContext("2d");
 let gameState;
 let ratio = 100;
 canvas.width = 9 * ratio;
-canvas. height = 4 * ratio;
+canvas.height = 4 * ratio;
 let key = "";
 let player;
 let hpDisplayCount = 0;

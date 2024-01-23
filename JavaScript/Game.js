@@ -68,7 +68,7 @@ function isWithinReach(){
     {
         if (!(zombies[i].hp <= 0))
         {
-            if (player.yCoord <= zombies[i].yCoord + 5 && player.yCoord >= zombies[i].yCoord - 5)
+            if (player.yCoord <= zombies[i].yCoord + (30 / difficulty) && player.yCoord >= zombies[i].yCoord - (30 / difficulty))
             {
                 zombies[i].dealDamage(player.strength);
                 zombies[i].xCoord += 15;

@@ -1,6 +1,6 @@
 const STARTHP = 15;
 const STARTINGX = 0;
-const STARTINGY = 0;
+const STARTINGY = 80 * 3;
 let monsterStrength = 1;
 
 class Monster{
@@ -77,7 +77,7 @@ class Player extends Monster{
 class Zombie extends Monster{
     constructor(sprite, row, speed){
         super();
-        this.hp += difficulty;
+        this.hp += (difficulty * 5) - 5;
         this.sprite = sprite;
         this.STARTINGX = canvas.width;
         this.yCoord = row;
