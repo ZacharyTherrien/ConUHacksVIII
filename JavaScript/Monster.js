@@ -1,7 +1,23 @@
 const STARTHP = 15;
 const STARTINGX = 0;
-const STARTINGY = 80 * 3;
+const STARTINGY = 80 * 2;
 let monsterStrength = 1;
+
+let zombieDeathSpriteImage = 1;
+let zombieDeathSprite = new Image();
+zombieDeathSprite.src = "./animations/zombie/death/1.png"
+
+function changeZombieDeathImage(){
+    zombieDeathSpriteImage++;
+    if(zombieDeathSpriteImage >= 24)
+        zombieDeathSpriteImage = 1;
+    let pngString = zombieDeathSpriteImage + ".png";
+    zombieDeathSprite.src = "./animations/zombie/death/" + pngString;
+}
+
+// let deathAnimationInterval;
+// deathAnimationInterval = setInterval(changeZombieDeathImage, 50);
+setInterval(changeZombieDeathImage, 50);
 
 class Monster{
     constructor(){
@@ -11,6 +27,7 @@ class Monster{
         this.yCoord = STARTINGY;
         this.isHuman = false;
         this.strength = monsterStrength;
+        this.sprite = "";
     }
 
     takeDamage(damage){
@@ -27,7 +44,9 @@ class Monster{
 
     dealDamage(damage = 1){
         this.hp -= damage;
-        this.isAlive = false;
+        if(this.hp <= 0){
+            this.dies();
+        }
         return this.hp <= 0;
     }
 
@@ -62,19 +81,24 @@ class Monster{
         }
     }
 
+    dies(){
+        this.isAlive = false;
+    }
 }
 
 class Player extends Monster{
-    constructor(){
+    constructor(sprite){
         super();
         this.hp = 3;
         this.isHuman = true; 
         this.strength = 5;
         this.score = 0;
+        this.sprite = sprite;
     }
 }
 
 class Zombie extends Monster{
+
     constructor(sprite, row, speed){
         super();
         this.hp += (difficulty * 5) - 5;
@@ -83,5 +107,14 @@ class Zombie extends Monster{
         this.yCoord = row;
         this.speed = speed;
         this.xCoord = this.STARTINGX;
+        this.deathAnimationCounter = 0;
+    }
+
+    dies(){
+        this.isAlive = false;
+        this.sprite = zombieDeathSprite;
+        zombieDeathSpriteImage = 1;
+        // clearInterval(deathAnimationInterval);
+        // deathAnimationInterval = setInterval(changeZombieDeathImage, 50);
     }
 }

@@ -1,3 +1,5 @@
+let damageLaunch = 15;
+
 function TitleScreen(){
     drawCharacter(sprite, titlePlayerX, titlePlayerY);
     titlePlayerX++;
@@ -45,6 +47,17 @@ function drawHpDamage(){
     }
 }
 
+function drawLines(){
+    context.strokeStyle = "white";
+    for(let i = 0; i < 5; i++){
+        context.beginPath();
+        context.setLineDash([25, 25]);
+        context.moveTo(0, 80 + (i * 80));
+        context.lineTo(canvas.width, 80 + (i * 80));
+        context.stroke();
+    }
+}
+
 function updatePlayerHpDisplay(){
     document.getElementById("HP-Display").innerHTML = player.hp;
 }
@@ -60,45 +73,31 @@ function SpawnZombies(sprite, x, y)
 
 function SpawnDeadZombies(sprite, x, y)
 {
-    context.drawImage(sprite, x, y, 100, 100);
+    //The death sprite's center is ~75 pixels away from zombie's walking sprite.
+    //So it needs to be moved 5 times the launch distance to have it placed at the spot.
+    context.drawImage(sprite, x - (damageLaunch * 5), y, 110, 80);
 }
 
 function isWithinReach(){
     for (let i = 0; i < zombies.length; i++)
     {
-        if (!(zombies[i].hp <= 0))
+        if (zombies[i].isAlive && player.yCoord <= zombies[i].yCoord + (30 / difficulty) && player.yCoord >= zombies[i].yCoord - (30 / difficulty))
         {
-            if (player.yCoord <= zombies[i].yCoord + (30 / difficulty) && player.yCoord >= zombies[i].yCoord - (30 / difficulty))
-            {
-                zombies[i].dealDamage(player.strength);
-                zombies[i].xCoord += 15;
-                hpX = zombies[i].xCoord;
-                hpY = zombies[i].yCoord;
-                hpDisplayCount = 50;
-                player.score += 50;
-            }
-        }
-        if(zombies[i].hp <= 0){
-            //zombieDeathSpriteImage = 1;
-            /*let deathInterval = window.setInterval(() => 
-            {
-                console.log(zombies[i].sprite.src)
-                zombieDeathSpriteImage++;
-                if(zombieDeathSprite == 23) zombieDeathSpriteImage = 23;
-                let pngString = zombieDeathSprite + ".png";
-                zombies[i].sprite.src = "./animations/zombie/death/" + pngString;
-            }, 100);*/
-            //setTimeout(() => 
-            //{
+            zombies[i].dealDamage(player.strength);
+            zombies[i].xCoord += damageLaunch;
+            hpX = zombies[i].xCoord;
+            hpY = zombies[i].yCoord;
+            hpDisplayCount = 50;
+            player.score += 50;
+            if(!zombies[i].isAlive){
                 player.score += 1000;
                 //window.clearInterval(deathInterval);
-                zombies[i] = null;
-                zombies = arrayShift(zombies, i);
-            //}, 4000);
-            //The break statement will prevent piercing damage.
+                //zombies[i] = null;
+                //zombies = arrayShift(zombies, i);
+            }
+            //This break statement will prevent zombies in the same row from getting hit.
             break;
         }
-        //window.setInterval(changeZombieDeathImage, 230);
     }
     updateScoreDisplay();
 }

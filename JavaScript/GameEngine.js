@@ -45,9 +45,6 @@ let zombies = []
 let zombieSpriteImage = 1;
 let zombieSprite = new Image();
 
-let zombieDeathSpriteImage = 1;
-let zombieDeathSprite = new Image();
-
 //Best reference ever, thx, Sean. :teary_eyes:
 if (hours == 3)
     zombieSprite.src = "./animations/zombie/special/1.png";
@@ -85,13 +82,6 @@ function changeZombieImage()
      "./animations/zombie/special/" + pngString : 
      "./animations/zombie/walking/" + pngString;
 }
-function changeZombieDeathImage(){
-    zombieDeathSpriteImage++;
-    if(zombieDeathSprite == 24)
-        zombieDeathSpriteImage = 1;
-    let pngString = zombieDeathSprite + ".png";
-    zombieDeathSprite.src = "./animations/zombie/death/" + pngString;
-}
 
 window.setInterval(() => {
     let doubleZombies = getRandomInt(100) / difficulty;
@@ -115,7 +105,6 @@ window.setInterval(() => {
 window.setInterval(changeZombieImage, 50);
 let characterWalkingInterval = setInterval(changeCharacterWalkingImage, 100);
 let characterIdleInterval;
-//window.setInterval(changeZombieDeathImage, 230);
 
 function animate()
 {
@@ -128,7 +117,7 @@ function animate()
             gameState = GameStates.Running;
             clearInterval(characterWalkingInterval);
             zombies = [];
-            player = new Player();
+            player = new Player(sprite);
             updatePlayerHpDisplay();
             updateScoreDisplay();
             characterIdleInterval = setInterval(changeCharacterImage, 100);
@@ -143,16 +132,17 @@ function animate()
     else if(gameState == GameStates.Running)
     {
         drawLines();
-        drawCharacter(sprite, 0, player.yCoord);
+        drawCharacter(player.sprite, 0, player.yCoord);
         drawHpDamage();
         if(fireRate > 0)
             fireRate--;
         let disappearingZombies = null;
         for (let i = 0; i < zombies.length; i++)
         {
+            //Update zombies' position.
             if (zombies[i].hp > 0)
                 zombies[i].xCoord -= (zombies[i].speed + (zombies[i].hp / 9) - difficulty);
-            
+            //If they reached the left side, deal damage to player.
             if (zombies[i].xCoord <= 35){
                 disappearingZombies = i;
                 player.takeDamage(1);
@@ -162,9 +152,19 @@ function animate()
                 //context.drawImage("./claw.png", 0, 0);
                 updatePlayerHpDisplay();
             }
-            if (zombies[i].hp > 0)
+            //Display the zombies.
+            //if (zombies[i].hp > 0)
+            if(zombies[i].isAlive){
                 SpawnZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
-            else SpawnDeadZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord)
+            }
+            else{
+                SpawnDeadZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
+                if(zombies[i].deathAnimationCounter++ > 60){            
+                    zombies[i] = null;
+                    zombies = arrayShift(zombies, i);
+                }
+            }
+            //else SpawnDeadZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord)
         }
         if (disappearingZombies != null) zombies.splice(disappearingZombies, 1);
 
@@ -208,14 +208,3 @@ function animate()
 }
 animate();
 initializaSounds();
-
-function drawLines(){
-    context.strokeStyle = "white";
-    for(let i = 0; i < 5; i++){
-        context.beginPath();
-        context.setLineDash([25, 25]);
-        context.moveTo(0, 80 + (i * 80));
-        context.lineTo(canvas.width, 80 + (i * 80));
-        context.stroke();
-    }
-}
