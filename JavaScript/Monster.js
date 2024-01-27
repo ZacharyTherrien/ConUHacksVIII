@@ -10,14 +10,14 @@ zombieDeathSprite.src = "./animations/zombie/death/1.png"
 function changeZombieDeathImage(){
     zombieDeathSpriteImage++;
     if(zombieDeathSpriteImage >= 24)
-        zombieDeathSpriteImage = 1;
+        zombieDeathSpriteImage = 23
     let pngString = zombieDeathSpriteImage + ".png";
     zombieDeathSprite.src = "./animations/zombie/death/" + pngString;
 }
 
 // let deathAnimationInterval;
 // deathAnimationInterval = setInterval(changeZombieDeathImage, 50);
-setInterval(changeZombieDeathImage, 50);
+setInterval(changeZombieDeathImage, 30);
 
 class Monster{
     constructor(){
@@ -53,7 +53,7 @@ class Monster{
     //need to revisit
     walk(key){
         if (key == "a" || key == "s"){
-            this.yCoord +=10;
+            this.yCoord += 10;
         }else if (key == "d" || key == "w"){
             this.yCoord -= 10;
         }
@@ -67,17 +67,19 @@ class Monster{
     
     attack(monster){
         //two zombies colliding
-        if (this.isHuman(monster)){
+        if (this.isHuman(monster))
             return;
-        }else{
+        else
+        {
             //if the human is attacking
-            if (this.isHuman){
+            if (this.isHuman)
+            {
                 monster.dealDamage(); 
                 //bullets decreasing?
                 //this.weapon.ammo -= 1;  
-            }else{
-                this.takeDamage(monster.strength);
             }
+            else
+                this.takeDamage(monster.strength);
         }
     }
 

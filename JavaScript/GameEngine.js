@@ -159,7 +159,7 @@ function animate()
             }
             else{
                 SpawnDeadZombies(zombies[i].sprite, zombies[i].xCoord, zombies[i].yCoord);
-                if(zombies[i].deathAnimationCounter++ > 60){            
+                if(zombies[i].deathAnimationCounter++ > 100){            
                     zombies[i] = null;
                     zombies = arrayShift(zombies, i);
                 }
