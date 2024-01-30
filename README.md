@@ -6,3 +6,5 @@ An addictive, top-down shooter game, fighting an endless zombie horde. The horde
 Use the S/A to move down and W/D to move up move. The weapon can be fired by pressing down the spacebar.
 
 Best of luck surviving the horde...
+
+In order to play the game on your desktop, download all files, open index.html, and get to shooting!
